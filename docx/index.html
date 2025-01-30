@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vigenère Cipher Decoder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        input, button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Vigenère Cipher Decoder</h2>
+    <input type="text" id="ciphertext" placeholder="Enter encrypted text">
+    <input type="text" id="key" placeholder="Enter key">
+    <button onclick="decodeVigenere()">Decode</button>
+    <h3>Decrypted Text:</h3>
+    <p id="result"></p>
+
+    <script>
+        function decodeVigenere() {
+            let ciphertext = document.getElementById("ciphertext").value.toUpperCase();
+            let key = document.getElementById("key").value.toUpperCase();
+            let decryptedText = "";
+            let keyIndex = 0;
+
+            for (let i = 0; i < ciphertext.length; i++) {
+                let charCode = ciphertext.charCodeAt(i);
+                if (charCode >= 65 && charCode <= 90) { // A-Z
+                    let keyChar = key[keyIndex % key.length].charCodeAt(0) - 65;
+                    let decryptedChar = String.fromCharCode(((charCode - 65 - keyChar + 26) % 26) + 65);
+                    decryptedText += decryptedChar;
+                    keyIndex++;
+                } else {
+                    decryptedText += ciphertext[i];
+                }
+            }
+            document.getElementById("result").textContent = decryptedText;
+        }
+    </script>
+</body>
+</html>
